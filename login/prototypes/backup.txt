@@ -1,0 +1,26 @@
+<?php
+    //get values from login.php
+	$username = $_POST['user'];
+	$password = $_POST['pass'];
+
+	//to prevent mysql injections
+	$username = stripcslashes($username);
+	$password = stripcslashes($username);
+	$username = mysql_real_escape_string($username);
+	$password = mysql_real_escape_string($password);
+
+	// connect with the server and select db
+	mysql_connect("localhost","root","");
+	mysql_select_db("nerdherd");
+
+	//query the db for user
+	$result = mysql_query("select * from users where username = '$username' and password = '$password'") 
+	or die("Failed to query DB ".mysql_error());
+	$row = mysql_fetch_array($result);
+	if($row['username']==$username && $row[password]==$password)
+	{
+		echo "Welcome ".$row['username'];
+	}else{
+		echo "Login failed! >_<";
+	}
+?>
